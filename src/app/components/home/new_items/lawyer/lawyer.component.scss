@@ -1,0 +1,50 @@
+.container {
+  position: relative;
+  color: white;
+  height: 100vh;
+  background-color: #232c39;
+  background-image: linear-gradient(
+    45deg,
+    rgba(0, 216, 255, 0.5) 10%,
+    rgba(0, 1, 127, 0.7)
+  );
+  font-family: Arial, Helvetica, Helvetica Neue, serif;
+  overflow-y: hidden;
+}
+
+h1{
+  text-align: center;
+}
+
+#lawyer_body{
+  text-align: center;
+  margin-top: 4%;
+}
+
+.input_label{
+  margin-right: 8px;
+}
+
+input{
+  width: 40%;
+  padding: 12px 20px;
+  margin: 28px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.add_button{
+  background-color: rgb(4, 105, 236);
+  color: white;
+  padding: 12px 20px;
+  margin: 20px 0;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  margin-left: 5%;
+}
+
+.alert-danger-text{
+  color:red;
+}

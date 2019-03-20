@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="lawyer_header">
+        <img src="/assets/back-arrow.png" width="90px"routerLink="">
+        <h1> New Lawyer </h1>
+    </div>
+    <div id="lawyer_body">
+      <form (submit)="onSubmit()" #newLawyerForm="ngForm" novalidate>
+
+        <div class="form-group">
+            <label class="input_label" for="lawyer_code">Lawyer's Code</label>
+
+            <input type="text" name="lawyer_code" [(ngModel)]="lawyer_code" class="form-control" id="lawyer_code" placeholder="Enter Lawyer Code" required minlength="4" #lawyerCodeField="ngModel" [ngStyle]="{'outline-color': lawyerCodeField.dirty && lawyerCodeField.valid ?'green' : undifiened}">
+
+            <div class="alert alert-danger" *ngIf="( lawyerCodeField.submit  || lawyerCodeField.touched) && lawyerCodeField.errors">
+                <div class="alert-danger-text" [hidden]="!lawyerCodeField.errors.required">Lawyer code is required</div>
+                <div class="alert-danger-text" [hidden]="!lawyerCodeField.errors.minlength">Lawyer code must be minimum of 4 characters long</div>
+              </div>
+
+        </div>
+
+
+        <div class="form-group">
+            <label class="input_label" for="lawyer_name">Lawyer's Name</label>
+
+            <input type="text" name="lawyer_name" [(ngModel)]="lawyer_name"  class="form-control" id="lawyer_name" placeholder="Enter Lawyer Name" required minlength="4" #lawyerNameField="ngModel" [ngStyle]="{'outline-color': lawyerNameField.dirty && lawyerNameField.valid ? 'green' : undifiened}">
+
+              <div class="alert alert-danger" *ngIf="( lawyerNameField.submit  || lawyerNameField.touched) && lawyerNameField.errors">
+                  <div class="alert-danger-text" [hidden]="!lawyerNameField.errors.required">Lawyer name is required</div>
+                  <div class="alert-danger-text" [hidden]="!lawyerNameField.errors.minlength">Lawyer name must be minimum of 4 characters long</div>
+              </div>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn btn-primary add_button">Add</button>
+        <div class="alert-danger-text" >{{submit_message}}</div>
+        </div>
+      </form>
+    </div>
+  </div>
