@@ -9,31 +9,49 @@
         <div class="form-group">
             <label class="input_label" for="matter_code">Matter's Code</label>
 
-            <input type="text" name="matter_code" [(ngModel)]="matter_code" class="form-control" id="matter_code" placeholder="Enter Matter Code" required minlength="4" #matterCodeField="ngModel" [ngStyle]="{'outline-color': matterCodeField.dirty && matterCodeField.valid ?'green' : undifiened}">
-
-            <div class="alert alert-danger" *ngIf="( matterCodeField.submit  || matterCodeField.touched) && matterCodeField.errors">
-                <div class="alert-danger-text" [hidden]="!matterCodeField.errors.required">Matter code is required</div>
-                <div class="alert-danger-text" [hidden]="!matterCodeField.errors.minlength">Matter code must be minimum of 4 characters long</div>
-              </div>
+            <input
+            type="text"
+            name="matter_code"
+            [(ngModel)]="matter_code"
+            class="form-control"
+            id="matter_code"
+            placeholder="Enter Matter Code"
+            required
+            maxlength="4"
+            #matterCodeField="ngModel"
+            (input)="onSearchChange_matter($event.target.value)"
+            >
 
         </div>
+        <div class="alert-danger-text" *ngIf="(matterCodeField.touched) && matterCodeField.errors">Invalid entry!</div>
+        <div class="database_validation database_error" *ngIf="(matter_result.valid == true)">{{matter_result.value}} already exist!</div>
 
 
         <div class="form-group">
             <label class="input_label" for="matter_name">Matter's Name</label>
 
-            <input type="text" name="matter_name" [(ngModel)]="matter_name"  class="form-control" id="matter_name" placeholder="Enter Matter Name" required minlength="4" #matterNameField="ngModel" [ngStyle]="{'outline-color': matterNameField.dirty && matterNameField.valid ? 'green' : undifiened}">
+            <input
+            type="text"
+            name="matter_name"
+            [(ngModel)]="matter_name"
+            class="form-control"
+            id="matter_name"
+            placeholder="Enter Matter Name"
+            required
+            maxlength="50"
+            #matterNameField="ngModel"
+            >
 
-              <div class="alert alert-danger" *ngIf="( matterNameField.submit  || matterNameField.touched) && matterNameField.errors">
-                  <div class="alert-danger-text" [hidden]="!matterNameField.errors.required">Matter name is required</div>
-                  <div class="alert-danger-text" [hidden]="!matterNameField.errors.minlength">Matter name must be minimum of 4 characters long</div>
-              </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="( matterNameField.submit  || matterNameField.touched) && matterNameField.errors">
+          <div class="database_validation database_error" [hidden]="!matterNameField.errors.required">Matter name is required!</div>
         </div>
 
         <div class="button-group">
             <button type="submit" class="btn btn-primary add_button">Add</button>
-        <div class="alert-danger-text" >{{submit_message}}</div>
         </div>
+        <div class="database_validation database_error" *ngIf="submit_message['valid'] == false">{{submit_message.value}}!</div>
+        <div class="database_validation database_success" *ngIf="submit_message['valid'] == true">Matter {{submit_message.value}}!</div>
       </form>
     </div>
   </div>

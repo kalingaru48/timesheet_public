@@ -11,3 +11,82 @@
   font-family: Arial, Helvetica, Helvetica Neue, serif;
   overflow-y: hidden;
 }
+
+.client_header{
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+h1{
+  margin: auto;
+}
+
+img{
+  align-self: flex-start;
+}
+
+#client_body{
+  text-align: center;
+}
+
+.input_label{
+  margin-right: 8px;
+}
+
+input{
+  width: 40%;
+  padding: 12px 20px;
+  margin: 28px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.add_button{
+  background-color: rgb(4, 105, 236);
+  color: white;
+  padding: 12px 20px;
+  margin: 20px 0;
+  border: none;
+  cursor: pointer;
+  width: 20%;
+  margin-left: 5%;
+}
+
+.alert-danger-text{
+  color:red;
+}
+
+.alert-ok-text{
+  color:rgb(4, 248, 25);
+}
+
+.all_button{
+  color: white;
+  padding: 12px 20px;
+  margin: 20px 0;
+  border: none;
+  cursor: pointer;
+  width: 10%;
+  margin-left: 60px;
+  display: inline-block;
+}
+
+.edit_button{
+  background-color: rgb(4, 253, 4);
+}
+
+.delete_button{
+  background-color: rgb(255, 40, 40);
+  margin-left: 10px;
+}
+
+.database_success{
+  color: rgb(4, 253, 4);
+}
+
+.database_error{
+  color: rgb(255, 40, 40);
+}

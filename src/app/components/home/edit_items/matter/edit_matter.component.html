@@ -1,19 +1,57 @@
 <div class="container">
   <div class="matter_header">
-      <button type="button" routerLink=''>Home</button>
-      <strong> New Matter </strong>
+      <img src="/assets/back-arrow.png" width="90px"routerLink="">
+      <h1>Edit Matter </h1>
   </div>
   <div id="matter_body">
-    <form>
+    <form (submit)="onSubmit()" #editMatterForm="ngForm" novalidate>
+
       <div class="form-group">
-        <label for="matter_code">Matter Code</label>
-        <input type="text" class="form-control" id="matter_code" placeholder="Enter Matter Code">
+          <label class="input_label" for="matter_code">Matter's Code</label>
+
+          <input
+            type="text"
+            name="matter_code"
+            [(ngModel)]="matter_code"
+            class="form-control"
+            id="matter_code"
+            placeholder="Enter Matter Code"
+            required
+            maxlength="4"
+            #matterCodeField="ngModel"
+            (input)="onSearchChange_matter($event.target.value)"
+            >
       </div>
+      <div class="database_validation database_error" *ngIf="(matter_result.valid == false)">Invalid entry!</div>
+      <div class="database_validation database_success" *ngIf="(matter_result.valid == true)">Entry found!</div>
+
+
       <div class="form-group">
-        <label for="matter_name">Matter Name</label>
-        <input type="text" class="form-control" id="matter_name" placeholder="Enter Matter Name">
+          <label class="input_label" for="matter_name">Matter's Name</label>
+
+          <input
+            type="text"
+            name="matter_name"
+            [(ngModel)]="matter_name"
+            class="form-control"
+            id="matter_name"
+            placeholder="Enter Matter Name"
+            required
+            maxlength="50"
+            #matterNameField="ngModel"
+          >
+
       </div>
-      <button type="submit" class="btn btn-primary">Add</button>
+      <div class="alert alert-danger" *ngIf="( matterNameField.submit  || matterNameField.touched) && matterNameField.errors">
+        <div class="database_validation database_error" [hidden]="!matterNameField.errors.required">Matter name is required!</div>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="all_button edit_button">Edit</button>
+        <button type="button" class="all_button delete_button" (click)="onDelete()">Delete</button>
+      </div>
+      <div class="database_validation database_error" *ngIf="submit_message['valid'] == false">{{submit_message.value}}!</div>
+      <div class="database_validation database_success" *ngIf="submit_message['valid'] == true">Client {{submit_message.value}}!</div>
     </form>
   </div>
 </div>

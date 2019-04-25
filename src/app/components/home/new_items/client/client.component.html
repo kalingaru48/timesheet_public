@@ -9,31 +9,47 @@
       <div class="form-group">
           <label class="input_label" for="client_code">Client's Code</label>
 
-          <input type="text" name="client_code" [(ngModel)]="client_code" class="form-control" id="client_code" placeholder="Enter Client Code" required minlength="4" #clientCodeField="ngModel" [ngStyle]="{'outline-color': clientCodeField.dirty && clientCodeField.valid ?'green' : undifiened}">
-
-          <div class="alert alert-danger" *ngIf="( clientCodeField.submit  || clientCodeField.touched || clientCodeField.undifiened) && clientCodeField.errors">
-              <div class="alert-danger-text" [hidden]="!clientCodeField.errors.required">Client code is required</div>
-              <div class="alert-danger-text" [hidden]="!clientCodeField.errors.minlength">Client code must be minimum of 4 characters long</div>
-            </div>
-
+          <input
+          type="text"
+          name="client_code"
+          [(ngModel)]="client_code"
+          class="form-control"
+          id="client_code"
+          placeholder="Enter Client Code"
+          required maxlength="4"
+          #clientCodeField="ngModel"
+          (input)="onSearchChange_client($event.target.value)"
+          >
       </div>
+      <div class="alert-danger-text" *ngIf="(clientCodeField.touched) && clientCodeField.errors">Invalid entry!</div>
+      <div class="database_validation database_error" *ngIf="(client_result.valid == true)">{{client_result.value}} already exist!</div>
 
 
       <div class="form-group">
           <label class="input_label" for="client_name">Client's Name</label>
 
-          <input type="text" name="client_name" [(ngModel)]="client_name"  class="form-control" id="client_name" placeholder="Enter Client Name" required minlength="4" #clientNameField="ngModel" [ngStyle]="{'outline-color': clientNameField.dirty && clientNameField.valid ? 'green' : undifiened}">
+          <input
+          type="text"
+          name="client_name"
+          [(ngModel)]="client_name"
+          class="form-control"
+          id="client_name"
+          placeholder="Enter Client Name"
+          required
+          maxlength="50"
+          #clientNameField="ngModel"
+          >
 
-            <div class="alert alert-danger" *ngIf="( clientNameField.submit  || clientNameField.touched) && clientNameField.errors">
-                <div class="alert-danger-text" [hidden]="!clientNameField.errors.required">Client name is required</div>
-                <div class="alert-danger-text" [hidden]="!clientNameField.errors.minlength">Client name must be minimum of 4 characters long</div>
-            </div>
+      </div>
+      <div class="database_validation database_error" *ngIf="( clientNameField.submit  || clientNameField.touched) && clientNameField.errors">
+        <div class="database_validation database_error" [hidden]="!clientNameField.errors.required">Client name is required!</div>
       </div>
 
       <div class="button-group">
           <button type="submit" class="btn btn-primary add_button">Add</button>
-      <div class="alert-danger-text" >{{submit_message}}</div>
       </div>
+      <div class="database_validation database_error" *ngIf="submit_message['valid'] == false">{{submit_message.value}}!</div>
+      <div class="database_validation database_success" *ngIf="submit_message['valid'] == true">Client {{submit_message.value}}!</div>
     </form>
   </div>
 </div>

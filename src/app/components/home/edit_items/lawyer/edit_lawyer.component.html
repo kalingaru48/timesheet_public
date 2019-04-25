@@ -1,19 +1,56 @@
 <div class="container">
   <div class="lawyer_header">
-      <button type="button" routerLink=''>Home</button>
-      <strong> New Lawyer </strong>
+      <img src="/assets/back-arrow.png" width="90px"routerLink="">
+      <h1> Edit Lawyer </h1>
   </div>
   <div id="lawyer_body">
-    <form>
+    <form (submit)="onSubmit()" #editLawyerForm="ngForm" novalidate>
+
       <div class="form-group">
-        <label for="lawyer_code">Lawyer's Code</label>
-        <input type="text" class="form-control" id="lawyer_code" placeholder="Enter Lawyer Code">
+          <label class="input_label" for="lawyer_code">Lawyer's Code</label>
+
+          <input
+            type="text"
+            name="lawyer_code"
+            [(ngModel)]="lawyer_code"
+            class="form-control"
+            id="lawyer_code"
+            placeholder="Enter Lawyer Code"
+            required maxlength="3"
+            #lawyerCodeField="ngModel"
+            (input)="onSearchChange_lawyer($event.target.value)"
+            >
       </div>
+      <div class="database_validation database_error" *ngIf="(lawyer_result.valid == false)">Invalid entry!</div>
+      <div class="database_validation database_success" *ngIf="(lawyer_result.valid == true)">Entry found!</div>
+
+
       <div class="form-group">
-        <label for="lawyer_name">Lawyer's Name</label>
-        <input type="text" class="form-control" id="lawyer_name" placeholder="Enter Lawyer Name">
+          <label class="input_label" for="lawyer_name">Lawyer's Name</label>
+
+          <input
+            type="text"
+            name="lawyer_name"
+            [(ngModel)]="lawyer_name"
+            class="form-control"
+            id="lawyer_name"
+            placeholder="Enter Lawyer Name"
+            required
+            maxlength="50"
+            #lawyerNameField="ngModel"
+          >
+
       </div>
-      <button type="submit" class="btn btn-primary">Add</button>
+      <div class="alert alert-danger" *ngIf="( lawyerNameField.submit  || lawyerNameField.touched) && lawyerNameField.errors">
+          <div class="database_validation database_error" [hidden]="!lawyerNameField.errors.required">Lawyer name is required!</div>
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="all_button edit_button">Edit</button>
+        <button type="button" class="all_button delete_button" (click)="onDelete()">Delete</button>
+      </div>
+      <div class="database_validation database_error" *ngIf="submit_message['valid'] == false">{{submit_message.value}}!</div>
+      <div class="database_validation database_success" *ngIf="submit_message['valid'] == true">Client {{submit_message.value}}!</div>
     </form>
   </div>
 </div>

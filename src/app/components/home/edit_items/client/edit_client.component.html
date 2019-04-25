@@ -1,19 +1,57 @@
 <div class="container">
   <div class="client_header">
-      <button type="button" routerLink=''>Home</button>
-      <strong> New Client </strong>
+      <img src="/assets/back-arrow.png" width="90px"routerLink="">
+      <h1> Edit Client </h1>
   </div>
   <div id="client_body">
-    <form>
+    <form (submit)="onSubmit()" #editClientForm="ngForm" novalidate>
+
       <div class="form-group">
-        <label for="client_code">Client's Code</label>
-        <input type="text" class="form-control" id="client_code" placeholder="Enter Client Code">
+          <label class="input_label" for="client_code">Client's Code</label>
+
+          <input
+          type="text"
+          name="client_code"
+          [(ngModel)]="client_code"
+          class="form-control"
+          id="client_code"
+          placeholder="Enter Client Code"
+          required maxlength="4"
+          #clientCodeField="ngModel"
+          (input)="onSearchChange_client($event.target.value)"
+          >
+
       </div>
+      <div class="database_validation database_error" *ngIf="(client_result.valid == false)">Invalid entry!</div>
+      <div class="database_validation database_success" *ngIf="(client_result.valid == true)">Entry found!</div>
+
+
       <div class="form-group">
-        <label for="client_name">Client's Name</label>
-        <input type="text" class="form-control" id="client_name" placeholder="Enter Client Name">
+          <label class="input_label" for="client_name">Client's Name</label>
+
+          <input
+          type="text"
+          name="client_name"
+          [(ngModel)]="client_name"
+          class="form-control"
+          id="client_name"
+          placeholder="Enter Client Name"
+          required
+          maxlength="50"
+          #clientNameField="ngModel"
+
+          >
       </div>
-      <button type="submit" class="btn btn-primary">Add</button>
+      <div class="database_validation database_error" *ngIf="( clientNameField.submit  || clientNameField.touched) && clientNameField.errors">
+        <div class="database_validation database_error" [hidden]="!clientNameField.errors.required">Client name is required!</div>
+      </div>
+
+      <div class="button-group">
+          <button type="submit" class="all_button edit_button">Edit</button>
+          <button type="button" class="all_button delete_button" (click)="onDelete()">Delete</button>
+      </div>
+      <div class="database_validation database_error" *ngIf="submit_message['valid'] == false">{{submit_message.value}}!</div>
+      <div class="database_validation database_success" *ngIf="submit_message['valid'] == true">Client {{submit_message.value}}!</div>
     </form>
   </div>
 </div>

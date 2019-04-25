@@ -1,39 +1,141 @@
 <div class="container">
+
   <div class="client_header">
-      <button type="button" routerLink=''>Home</button>
-      <strong> New Timesheet </strong>
+    <img src="/assets/back-arrow.png" width="90px"routerLink="">
+    <h1> Edit Timesheet </h1>
   </div>
-  <div id="client_body">
-    <form>
+
+  <div id="timesheet_body">
+    <form (submit)="onSubmit()" #editTimesheetForm="ngForm">
+
       <div class="form-group">
-        <label for="lawyer_code">Client Code</label>
-        <input type="text" class="form-control" id="lawyer_code" placeholder="Enter Client Code">
+          <label  class="input_label" for="sequence_number">Sequence Number</label>
+          <input
+          type="text"
+          class="form-control"
+          id="sequence_number"
+          placeholder="Enter Sequence Number"
+          (input)="onSearchChange_sq_number($event.target.value)"
+          [(ngModel)]="sq_number"
+          name="sq_number"
+          required
+          #sqnumberField="ngModel"
+          >
+      </div>
+      <div class="database_validation database_error" *ngIf="(sq_number_result.sq_number === false)">Not a valid entry</div>
+      <div class="database_validation database_success" *ngIf="(sq_number_result.sq_number)">{{sq_number_result.sq_number}}</div>
+
+      <div class="form-group">
+          <label  class="input_label" for="date_and_time">Date(DD/MM/YYYY)</label>
+          <input
+          type="date"
+          class="form-control"
+          id="date_and_time"
+          name="date_and_time"
+          [(ngModel)]="date_and_time"
+          placeholder="Enter Date(DD/MM/YYYY)"
+          value={{sq_number_result.input_date}}
+          required
+          >
+          <div class="database_validation database_error" *ngIf="(hoursField.touched && hoursField.null)">Required: Please enter the date</div>
       </div>
       <div class="form-group">
-        <label for="lawyer_name">Matter Code</label>
-        <input type="text" class="form-control" id="lawyer_name" placeholder="Enter Matter Code">
+          <label  class="input_label" for="hours">Number of Hours</label>
+          <input
+          type="text"
+          class="form-control"
+          id="hours"
+          placeholder="Enter Number of Hours"
+          name="hours"
+          [(ngModel)]="hours"
+          value={{sq_number_result.hours}}
+          pattern="[0-9]+(\.?[0-9]?[0-9]?)"
+          required
+          #hoursField="ngModel"
+          >
       </div>
+      <div class="database_validation database_error" *ngIf="(hoursField.touched || hoursField.undifiened) && hoursField.errors">Should be a number!</div>
+
       <div class="form-group">
-        <label for="lawyer_name">Sequence Number</label>
-        <input type="text" class="form-control" id="lawyer_name" placeholder="Enter Sequence Number">
+          <label  class="input_label" for="client_code">Client Code</label>
+          <input
+          type="text"
+          name="client_code"
+          class="form-control"
+          id="client_code"
+          (input)="onSearchChange_client($event.target.value)"
+          placeholder="Enter Client Code"
+          [(ngModel)]="client_code"
+          #clientCodeField="ngModel"
+          value={{sq_number_result.cl_code}}
+          >
+          <label  class="input_label" for="client_code"></label>
       </div>
+      <div class="database_validation database_error" *ngIf="(client_result.valid == false)">Invalid entry!</div>
+      <div class="database_validation database_success" *ngIf="(sq_number_result.sq_number)">{{sq_number_result.cl_name}}</div>
+      <div class="database_validation database_success" *ngIf="(client_result.valid == true)">{{client_result.value}}</div>
+
+
       <div class="form-group">
-        <label for="lawyer_name">Date(DD/MM/YYYY)</label>
-        <input type="text" class="form-control" id="lawyer_name" placeholder="Enter Date(DD/MM/YYYY)">
+        <label  class="input_label" for="lawyer_code">Lawyer Code</label>
+        <input
+        type="text"
+        name="lawyer_code"
+        class="form-control"
+        id="lawyer_code"
+        (input)="onSearchChange_lawyer($event.target.value)"
+        [(ngModel)]="lawyer_code"
+        placeholder="Enter Lawyer Code"
+        value={{sq_number_result.la_code}}
+        >
       </div>
+      <div class="database_validation database_error" *ngIf="(lawyer_result.valid == false)">Invalid entry!</div>
+      <div class="database_validation database_success" *ngIf="(sq_number_result.sq_number)">{{sq_number_result.la_name}}</div>
+      <div class="database_validation database_success" *ngIf="(lawyer_result.valid == true)">{{lawyer_result.value}}</div>
+
       <div class="form-group">
-        <label for="lawyer_name">Lawyer Code</label>
-        <input type="text" class="form-control" id="lawyer_name" placeholder="Enter Lawyer Code">
+        <label  class="input_label" for="matter_code">Matter Code</label>
+        <input
+        type="text"
+        name="matter_code"
+        class="form-control"
+        id="matter_code"
+        (input)="onSearchChange_matter($event.target.value)"
+        placeholder="Enter Matter Code"
+        [(ngModel)]="matter_code"
+        value={{sq_number_result.ma_code}}
+        >
+
       </div>
-      <div class="form-group">
-        <label for="lawyer_name">Number of Hours</label>
-        <input type="text" class="form-control" id="lawyer_name" placeholder="Enter Number of Hours">
+      <div class="database_validation database_error" *ngIf="(matter_result.valid == false)">Invalid entry!</div>
+      <div class="database_validation database_success" *ngIf="(sq_number_result.sq_number)">{{sq_number_result.ma_name}}</div>
+      <div class="database_validation database_success" *ngIf="(matter_result.valid == true)">{{matter_result.value}}</div>
+
+
+      <div class="form-group" id="description_box">
+        <label  class="input_label" id=description_label for="lawyer_name">Description</label>
+        <textarea
+        type="text"
+        form="client_form"
+        id="timesheet_description"
+        name="timesheet_description"
+        [(ngModel)]="timesheet_description"
+        placeholder="Enter Description"
+        rows="6"
+        value={{sq_number_result.description}}
+        required
+        #desField="ngModel"
+        ></textarea>
+
       </div>
-      <div class="form-group">
-        <label for="lawyer_name">Description</label>
-        <input type="text" class="form-control" id="lawyer_name" placeholder="Enter Description">
+      <div class="database_validation database_error" *ngIf="(desField.touched || desField.undifiened) && desField.errors">Required: Please enter the description</div>
+
+      <div class="button_group">
+        <button type="button" class="all_button edit_button" (click)="onEdit()">Edit</button>
+        <button type="button" class="all_button delete_button" (click)="onDelete()">Delete</button>
       </div>
-      <button type="submit" class="btn btn-primary">Add</button>
+      <div class="database_validation database_error" *ngIf="(edit_timeSheet_result.valid == false)">{{edit_timeSheet_result.value}}!</div>
+      <div class="database_validation database_success" *ngIf="(edit_timeSheet_result.valid == true)">Timesheet {{edit_timeSheet_result.value}}!</div>
     </form>
   </div>
 </div>

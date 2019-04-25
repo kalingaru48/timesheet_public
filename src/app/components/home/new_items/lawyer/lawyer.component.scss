@@ -12,13 +12,23 @@
   overflow-y: hidden;
 }
 
+.lawyer_header{
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
 h1{
-  text-align: center;
+  margin: auto;
+}
+
+img{
+  align-self: flex-start;
 }
 
 #lawyer_body{
   text-align: center;
-  margin-top: 4%;
 }
 
 .input_label{
@@ -47,4 +57,16 @@ input{
 
 .alert-danger-text{
   color:red;
+}
+
+.alert-ok-text{
+  color:rgb(4, 248, 25);
+}
+
+.database_success{
+  color: rgb(4, 253, 4);
+}
+
+.database_error{
+  color: rgb(255, 40, 40);
 }

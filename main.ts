@@ -8,19 +8,99 @@ let db = new Database()
 db.createClientsTable()
 db.createLawyersTable()
 db.createMattersTable()
+db.createTimesheetsTable()
 
 ipcMain.on('create', (event, args)=>{
-
-
-      db.addNewEntity(args.item, args.code, args.name)
-      .then(()=>{
-        event.returnValue = db.create_result})
+  //console.log(args)
+  db.addNewEntity(args.item, args.code, args.name)
+      .then((result)=>{
+        event.returnValue = {value:'Added', valid: true}
+      })
       .catch((err)=>{
-          event.returnValue = db.create_result
+          event.returnValue = {value: err, valid: false}
+    })
+
+})
+
+ipcMain.on('newTimeSheet', (event, args)=>{
+  //console.log(args.item)
+  //console.log(args.code)
+
+  if(args.event == 'check'){
+
+      db.checkChange(args.item, args.code)
+      .then((result)=>{
+          if(args.item == 'Timesheet'){
+            if(result != null){
+              event.returnValue = result
+            } else if(result == null){
+              // This space will not be excuted as I'm rejecting(null) in server.js check promise
+            }
+
+          } else {
+            let keys = Object.keys(result)
+            event.returnValue = {"value": result[keys[1]], "valid" : true}
+            //console.log(result)
+          }
+      })
+      .catch((err)=>{
+       if(args.item == 'Timesheet'){
+        event.returnValue = { sq_number: false, hours: null, input_date: null, cl_code: null, cl_name: null, la_code: null, la_name: null, ma_code: null, ma_name: null, description: null }
+       }else{
+        event.returnValue = {"value": err, "valid" : false}
+       }
+
       })
 
 
+  } else if(args.event ==  'createTimesheet'){
+
+    db.addTimesheet(args.data)
+        .then((result)=>{
+         event.returnValue =  result
+        }).catch((err)=>{
+          event.returnValue = {value: err, valid : false}
+        })
+
+  } else if(args.event == 'edit'){
+    //console.log(args.data)
+    db.editEntry(args.item, args.code, args.data)
+        .then((result)=>{
+         //console.log('Here is your result: ', result)
+         event.returnValue =  result
+        }).catch((err)=>{
+
+          event.returnValue = {"value": err['value'], "valid" : false}
+        })
+
+  } else if(args.event == 'delete'){
+
+    //console.log(args.data)
+    db.deleteEntry(args.item, args.code, args.data)
+        .then((result)=>{
+         //console.log('Here is your result: ', result)
+         event.returnValue =  result
+        }).catch((err)=>{
+          event.returnValue = {"value": err['value'], "valid" : false}
+        })
+
+  } else if (args.event == 'lastSequnce'){
+
+    db.lastSequence().then((result)=>{
+      //console.log(result)
+      event.returnValue = {"value": result['sq_number'], "valid" : true}
+
+    }).catch((err)=>{
+
+      event.returnValue = {"value": 'DB Error!', "valid" : false}
+
+    })
+
+  }
+
 })
+
+
 
 let win, serve;
 const args = process.argv.slice(1);

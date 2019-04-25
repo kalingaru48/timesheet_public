@@ -11,3 +11,116 @@
   font-family: Arial, Helvetica, Helvetica Neue, serif;
   overflow-y: hidden;
 }
+
+.client_header{
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+h1{
+  margin: auto;
+}
+
+img{
+  align-self: flex-start;
+}
+
+
+#timesheet_body{
+  text-align: left;
+  margin: 40px;
+}
+
+.input_label{
+  margin-right: 10px;
+  display: inline-block;
+  width: 160px;
+  text-align: right;
+  margin: 6px;
+}
+
+input{
+  width: 20%;
+  padding: 12px 20px;
+  margin: 6px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+
+}
+
+textarea{
+  width: 40%;
+  padding: 12px 20px;
+  margin: 16px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.form-group{
+  display: flex;
+  flex-direction: row;
+  height: 0%;
+  //width: 90%;
+  align-content: center;
+}
+
+#description_box{
+  //margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+#description_label{
+  margin: 12px 0;
+  margin-right: 10px;
+  display: inline-block;
+  text-align: right;
+}
+
+.all_button{
+  color: white;
+  padding: 12px 20px;
+  margin: 20px 0;
+  border: none;
+  cursor: pointer;
+  width: 10%;
+  margin-left: 174px;
+  display: inline-block;
+}
+
+.edit_button{
+  background-color: rgb(4, 253, 4);
+}
+
+.delete_button{
+  background-color: rgb(255, 40, 40);
+  margin-left: 10px;
+}
+
+.button_group{
+  display: flex;
+  flex-direction: row;
+  height: 0%;
+}
+.end_label{
+  margin-left: 1000px;
+}
+
+.database_validation{
+  margin-left: 174px;
+}
+
+.database_success{
+  color: rgb(4, 253, 4);
+}
+
+.database_error{
+  color: rgb(255, 40, 40);
+}
+
+

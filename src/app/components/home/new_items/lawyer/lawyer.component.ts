@@ -13,14 +13,36 @@ export class LawyerComponent {
   lawyer_code: string = "";
   lawyer_name: string = "";
   @ViewChild('newLawyerForm') newLawyerForm: NgForm;
-  submit_message: string = "";
+  submit_message: object = {value: null, valid: null}
+  lawyer_result: object = {value: null, valid: null}
+
+  checkCodes(table: string, value: string){
+    return ipcRenderer.sendSync('newTimeSheet', {item: table, event: 'check', code: value})
+  }
+
+  onSearchChange_lawyer(searchValue : string) {
+    if(searchValue.length <= 4){
+      return this.lawyer_result = this.checkCodes("Lawyer", searchValue)
+    } else {
+      return this.lawyer_result = {value: null, valid : false};
+    }
+
+  }
 
   onSubmit(newLawyerForm: NgForm) {
-    if (this.newLawyerForm.invalid) return this.submit_message = "Failed to add the client!";
-    console.log(this.lawyer_code, this.lawyer_name)
-    this.submit_message = ipcRenderer.sendSync('create', {item:'lawyers', code: this.lawyer_code, name: this.lawyer_name})
-    this.newLawyerForm.resetForm()
 
+  if(this.lawyer_result['valid'] == false && this.newLawyerForm.valid == true){
+      this.submit_message = ipcRenderer.sendSync('create', {item:'Lawyer', code: this.lawyer_code, name: this.lawyer_name})
+   }else{
+      this.submit_message = {value: 'Incorrect inputs', valid: false}
+   }
+
+
+   this.newLawyerForm.resetForm()
+
+   setTimeout(()=>{
+    this.submit_message =  {value: null, valid: null}
+   }, 4000)
 
   }
 

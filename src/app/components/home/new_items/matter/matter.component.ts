@@ -12,13 +12,36 @@ export class MatterComponent {
   matter_code: string = "";
   matter_name: string = "";
   @ViewChild('newMatterForm') newMatterForm: NgForm;
-  submit_message: string = "";
+  submit_message: object = {value: null, valid: null}
+  matter_result: object = {value: null, valid: null}
 
-  onSubmit(newLawyerForm: NgForm) {
-    if (this.newMatterForm.invalid) return this.submit_message = "Failed to add the client!";
-    console.log(this.matter_code, this.matter_name)
-    this.submit_message = ipcRenderer.sendSync('create', {item:'matters', code: this.matter_code, name: this.matter_name})
-    this.newMatterForm.resetForm()
+  checkCodes(table: string, value: string){
+    return ipcRenderer.sendSync('newTimeSheet', {item: table, event: 'check', code: value})
+  }
+
+  onSearchChange_matter(searchValue : string) {
+    if(searchValue.length <= 4){
+      return this.matter_result = this.checkCodes("Matter", searchValue)
+    } else {
+      return this.matter_result = {value: null, valid : false};
+    }
 
   }
+
+  onSubmit(newMatterForm: NgForm) {
+
+    if(this.matter_result['valid'] == false && this.newMatterForm.valid == true){
+      this.submit_message = ipcRenderer.sendSync('create', {item:'Matter', code: this.matter_code, name: this.matter_name})
+    }else{
+        this.submit_message = {value: 'Incorrect inputs', valid: false}
+    }
+
+    this.newMatterForm.resetForm()
+
+     setTimeout(()=>{
+      this.submit_message =  {value: null, valid: null}
+     }, 4000)
+
+    }
+
 }

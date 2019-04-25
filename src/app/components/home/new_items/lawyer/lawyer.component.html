@@ -9,31 +9,48 @@
         <div class="form-group">
             <label class="input_label" for="lawyer_code">Lawyer's Code</label>
 
-            <input type="text" name="lawyer_code" [(ngModel)]="lawyer_code" class="form-control" id="lawyer_code" placeholder="Enter Lawyer Code" required minlength="4" #lawyerCodeField="ngModel" [ngStyle]="{'outline-color': lawyerCodeField.dirty && lawyerCodeField.valid ?'green' : undifiened}">
-
-            <div class="alert alert-danger" *ngIf="( lawyerCodeField.submit  || lawyerCodeField.touched) && lawyerCodeField.errors">
-                <div class="alert-danger-text" [hidden]="!lawyerCodeField.errors.required">Lawyer code is required</div>
-                <div class="alert-danger-text" [hidden]="!lawyerCodeField.errors.minlength">Lawyer code must be minimum of 4 characters long</div>
-              </div>
+            <input
+            type="text"
+            name="lawyer_code"
+            [(ngModel)]="lawyer_code"
+            class="form-control"
+            id="lawyer_code"
+            placeholder="Enter Lawyer Code"
+            required maxlength="3"
+            #lawyerCodeField="ngModel"
+            (input)="onSearchChange_lawyer($event.target.value)"
+            >
 
         </div>
-
+        <div class="alert-danger-text" *ngIf="(lawyerCodeField.touched) && lawyerCodeField.errors">Invalid entry!</div>
+        <div class="database_validation database_error" *ngIf="(lawyer_result.valid == true)">{{lawyer_result.value}} already exist!</div>
 
         <div class="form-group">
             <label class="input_label" for="lawyer_name">Lawyer's Name</label>
 
-            <input type="text" name="lawyer_name" [(ngModel)]="lawyer_name"  class="form-control" id="lawyer_name" placeholder="Enter Lawyer Name" required minlength="4" #lawyerNameField="ngModel" [ngStyle]="{'outline-color': lawyerNameField.dirty && lawyerNameField.valid ? 'green' : undifiened}">
+            <input
+            type="text"
+            name="lawyer_name"
+            [(ngModel)]="lawyer_name"
+            class="form-control"
+            id="lawyer_name"
+            placeholder="Enter Lawyer Name"
+            required
+            maxlength="50"
+            #lawyerNameField="ngModel"
+            >
 
-              <div class="alert alert-danger" *ngIf="( lawyerNameField.submit  || lawyerNameField.touched) && lawyerNameField.errors">
-                  <div class="alert-danger-text" [hidden]="!lawyerNameField.errors.required">Lawyer name is required</div>
-                  <div class="alert-danger-text" [hidden]="!lawyerNameField.errors.minlength">Lawyer name must be minimum of 4 characters long</div>
-              </div>
+        </div>
+
+        <div class="alert alert-danger" *ngIf="( lawyerNameField.submit  || lawyerNameField.touched) && lawyerNameField.errors">
+          <div class="database_validation database_error" [hidden]="!lawyerNameField.errors.required">Lawyer name is required</div>
         </div>
 
         <div class="button-group">
             <button type="submit" class="btn btn-primary add_button">Add</button>
-        <div class="alert-danger-text" >{{submit_message}}</div>
         </div>
+        <div class="database_validation database_error" *ngIf="submit_message['valid'] == false">{{submit_message.value}}!</div>
+        <div class="database_validation database_success" *ngIf="submit_message['valid'] == true">Lawyer {{submit_message.value}}!</div>
       </form>
     </div>
   </div>
